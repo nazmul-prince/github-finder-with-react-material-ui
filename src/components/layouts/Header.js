@@ -11,7 +11,7 @@ const Header = props => {
         <AppBar position="static">
             <Toolbar>
                 <Typography variant="headline" color="inherit">
-                    Excercises Databases
+                    Context api example using Material-ui
                 </Typography>
             </Toolbar>
         </AppBar>

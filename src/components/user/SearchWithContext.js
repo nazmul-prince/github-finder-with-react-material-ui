@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import UserContext from '../context/user/userContext'
 
 const style = {
     fullWidth: { width: '100%' }
 }
 export class Search extends Component {
+    static contextType = UserContext;
     style = {
         fullWidth: { width: '100%', padding: 5 }
     }
@@ -20,7 +22,7 @@ export class Search extends Component {
             alert("Please enter something");
         }
         else {
-            this.props.searchUsers(this.state.text);
+            this.context.searchUsers(this.state.text);
         }
     };
 
