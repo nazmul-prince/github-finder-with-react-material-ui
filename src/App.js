@@ -2,29 +2,40 @@ import React, { Fragment, Component } from "react";
 import "./App.css";
 
 import { Header, Footer } from "./components/layouts";
-import Excercises from "./components/excercises";
+import Exercises from "./components/exercises";
 import Search from "./components/user/Search";
 import Users from "./components/user/Users";
 import axios from "axios";
 import { Grid, Paper } from "@material-ui/core";
-import { muscles, excercises } from "./store";
+import { muscles, exercises } from "./store";
 
 class App extends Component {
   state = {
-    excercises,
-    excercise: {}
+    exercises,
+    editMode: false,
+    exercise: {}
   };
 
-  getExcerciseByMuscles() {
-    return Object.entries(
-      this.state.excercises.reduce((excercises, excercise) => {
-        const { muscles } = excercise;
+  getExerciseByMuscles() {
 
-        excercises[muscles] = excercises[muscles]
-          ? [...excercises[muscles], excercise]
-          : [excercise];
-        return excercises;
-      }, {})
+    const initialexercises = muscles.reduce((exercises, category) => {
+      return {
+        ...exercises,
+        [category]: []
+      };
+    }, {});
+
+    console.log(initialexercises);
+
+    return Object.entries(
+      this.state.exercises.reduce((exercises, exercise) => {
+        const { muscles } = exercise;
+
+        exercises[muscles] = exercises[muscles]
+          ? [...exercises[muscles], exercise]
+          : [exercise];
+        return exercises;
+      }, initialexercises)
     );
   }
 
@@ -34,23 +45,67 @@ class App extends Component {
     });
   }
 
-  handleExcerciseSelected = id => {
-    this.setState(({ excercises }) => ({
-      excercise: excercises.find(ex => ex.id === id)
+  handleExerciseSelected = id => {
+    this.setState(({ exercises }) => ({
+      exercise: exercises.find(ex => ex.id === id),
+      editMode: false
+    }));
+  }
+
+  handleCreateExercise = (exercise) => {
+    this.setState(({ exercises }) => ({
+      exercises: [
+        ...exercises,
+        exercise
+      ]
+    }));
+  }
+
+  handleExerciseDeletion = id => {
+    this.setState(({ exercises }) => ({
+      exercises: exercises.filter(ex => ex.id !== id),
+      editMode: false,
+      exercise: {}
+    }));
+  }
+
+  handleExerciseSelectEdit = id => {
+    this.setState(({ exercises }) => ({
+      exercise: exercises.find(ex => ex.id === id),
+      editMode: true
+    }));
+  }
+
+  handleExerciseEdit = exercise => {
+    this.setState(({ exercises }) => ({
+      exercises: [
+        ...exercises.filter(ex => ex.id !== exercise.id),
+        exercise
+      ],
+      exercise
     }));
   }
 
   render() {
-    const excercises = this.getExcerciseByMuscles();
-    const { category, excercise } = this.state;
+    const exercises = this.getExerciseByMuscles();
+    const { category, exercise, editMode } = this.state;
     return (
       <Fragment>
-        <Header />
-        <Excercises 
-          excercises={excercises}
-          excercise={excercise}
+        <Header 
+          muscles={muscles}
+          createexercise={this.handleCreateExercise}
+          
+        />
+        <Exercises 
+          exercises={exercises}
+          exercise={exercise}
           category={category}
-          onSelect={this.handleExcerciseSelected}
+          onSelect={this.handleExerciseSelected}
+          onDelete={this.handleExerciseDeletion}
+          onSelectEdit={this.handleExerciseSelectEdit}
+          onEdit={this.handleExerciseEdit}
+          editMode={editMode}
+          muscles={muscles}
           />
         <Footer 
           category={category}
