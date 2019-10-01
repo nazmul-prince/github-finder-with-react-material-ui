@@ -41,7 +41,6 @@ export class Form extends Component {
     };
     
     handleSubmit = () => {
-        const { exercise } = this.state; 
         this.props.onSubmit({
             id: this.state.title.toLocaleLowerCase().replace(/ /g, '-'),
             ...this.state

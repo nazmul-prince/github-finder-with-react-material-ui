@@ -3,11 +3,13 @@ import "./App.css";
 
 import { Header, Footer } from "./components/layouts";
 import Exercises from "./components/exercises";
+import GuardProfiles from "./components/exercises/GuardProfiles";
 import Search from "./components/user/Search";
 import Users from "./components/user/Users";
 import axios from "axios";
 import { Grid, Paper } from "@material-ui/core";
 import { muscles, exercises } from "./store";
+import SortAndSelectableTableDemo from "./components/exercises/SortAndSelectableTableDemo";
 
 class App extends Component {
   state = {
@@ -87,8 +89,8 @@ class App extends Component {
   }
 
   render() {
-    const exercises = this.getExerciseByMuscles();
-    const { category, exercise, editMode } = this.state;
+    const exercisesByMuscles = this.getExerciseByMuscles();
+    const { category, exercise, editMode, exercises } = this.state;
     return (
       <Fragment>
         <Header 
@@ -96,8 +98,8 @@ class App extends Component {
           createexercise={this.handleCreateExercise}
           
         />
-        <Exercises 
-          exercises={exercises}
+        {/* <Exercises 
+          exercises={exercisesByMuscles}
           exercise={exercise}
           category={category}
           onSelect={this.handleExerciseSelected}
@@ -106,7 +108,19 @@ class App extends Component {
           onEdit={this.handleExerciseEdit}
           editMode={editMode}
           muscles={muscles}
-          />
+          /> */}
+          {/* <GuardProfiles 
+            exercises={exercises}
+            exercise={exercise}
+            category={category}
+            onSelect={this.handleExerciseSelected}
+            onDelete={this.handleExerciseDeletion}
+            onSelectEdit={this.handleExerciseSelectEdit}
+            onEdit={this.handleExerciseEdit}
+            editMode={editMode}
+            muscles={muscles}
+            /> */}
+            <SortAndSelectableTableDemo />
         <Footer 
           category={category}
           muscles={muscles}

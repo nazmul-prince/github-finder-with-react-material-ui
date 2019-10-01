@@ -5,7 +5,7 @@ import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import CreateDialog from '../exercises/dialogs/Create';
+import CreateDialog from '../exercises/dialogs/Dialog';
 
 const Header = ({ muscles, createExercise }) => {
     return (
